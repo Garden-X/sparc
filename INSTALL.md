@@ -26,6 +26,11 @@ coordination, locks, retries, schedulers, run loops, or autopipelines.
 Specification Protocol for Agent Runtime Contracts (SPARC) governs project
 contract files.
 
+SPARC is project-agnostic until it is attached to a target project.
+
+Installation attaches the reusable SPARC package to one project by creating or
+verifying live project contract files under `/docs`.
+
 SPARC does not govern agent behavior outside SPARC contract handling.
 
 Agent configuration files may define how an agent behaves.

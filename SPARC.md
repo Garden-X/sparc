@@ -64,6 +64,36 @@ target project.
 That bootstrap order does not make PACT part of SPARC. SPARC still governs only
 the specification package, templates, and generated live contract files.
 
+## System Boundaries
+
+SPARC is project-agnostic.
+
+SPARC defines reusable structural contracts for context. It does not know the
+business meaning, runtime implementation, or application-specific behavior of a
+target project.
+
+PACT is agent-agnostic.
+
+PACT may define reusable execution coordination. It does not depend on one
+specific AI model, agent identity, or agent personality.
+
+Projects are implementation-specific.
+
+Projects define actual business logic, application behavior, runtime code,
+domain data, and user-facing meaning.
+
+```txt
+SPARC standardizes context.
+PACT standardizes execution.
+Projects provide meaning.
+```
+
+| System | Agnostic To | Responsibility |
+|---|---|---|
+| SPARC | project | contracts and context |
+| PACT | agent | execution and coordination |
+| Project | none | business and application implementation |
+
 ## Authority
 
 Owner instructions may authorize a contract change.

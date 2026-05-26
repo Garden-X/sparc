@@ -45,6 +45,26 @@ Specification Protocol for Agent Runtime Contracts (SPARC) gives a project:
 - a two-layer app log: accepted summaries and request-level daily entries;
 - templates for creating those files consistently.
 
+## System Boundaries
+
+SPARC is project-agnostic.
+
+PACT is agent-agnostic.
+
+Applications are implementation-specific.
+
+SPARC standardizes context.
+
+PACT standardizes execution.
+
+Projects provide meaning.
+
+| System | Agnostic To | Responsibility |
+|---|---|---|
+| SPARC | project | contracts and context |
+| PACT | agent | execution and coordination |
+| Project | none | actual business and application logic |
+
 `README.md`, `SPARC.md`, `INSTALL.md`, and repository legal files are static
 package files. Project-specific truth is written into generated live contracts
 under `/docs` according to the templates.

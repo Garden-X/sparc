@@ -1,7 +1,7 @@
 ## META
 
 name: platform-logic.tpl.md
-version: 1.0
+version: 1.1
 type: template
 for: PLATFORM-LOGIC.md
 
@@ -12,7 +12,7 @@ for: PLATFORM-LOGIC.md
 Recommended path:
 
 ```txt
-/docs/PLATFORM-LOGIC.md
+<docs-root>/PLATFORM-LOGIC.md
 ```
 
 It is used when a rule applies across applications or overrides an individual

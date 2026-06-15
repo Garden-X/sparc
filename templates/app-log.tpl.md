@@ -1,7 +1,7 @@
 ## META
 
 name: app-log.tpl.md
-version: 1.0
+version: 1.1
 type: template
 for: LOG.md and daily/YYYY-MM-DD.log.md
 
@@ -16,8 +16,8 @@ Daily logs record request-level work.
 Recommended paths:
 
 ```txt
-/docs/<app-name-en>/changes/LOG.md
-/docs/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
+<docs-root>/<app-name-en>/changes/LOG.md
+<docs-root>/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
 ```
 
 `LOG.md` is used to understand what accepted changes became part of the project.

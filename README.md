@@ -13,7 +13,7 @@ belong to PACT or another execution layer.
 
 ## Status
 
-Version: `01.00`
+Version: `01.01`
 
 Status: minimal specification package.
 
@@ -24,6 +24,13 @@ change history are scattered across chats and files.
 
 Specification Protocol for Agent Runtime Contracts (SPARC) keeps those concerns
 in a small, inspectable contract set.
+
+SPARC is declarative and structural. It provides deterministic file-driven
+discovery for project context, not workflow execution.
+
+`MAP.md` is the first structural entry point for an app. It records the main
+file inventory and points to attached modules, plugins, integrations, extension
+points, and any split map files.
 
 ## Repository Contents
 
@@ -67,7 +74,28 @@ Projects provide meaning.
 
 `README.md`, `SPARC.md`, `INSTALL.md`, and repository legal files are static
 package files. Project-specific truth is written into generated live contracts
-under `/docs` according to the templates.
+under the mapped documentation root. In the Agent OS layout, that root is
+`/ai/docs`.
+
+## Agent OS Placement
+
+SPARC may be placed inside a broader Agent OS layout:
+
+```txt
+/ai
+├── pact/
+├── raw/
+├── sparc/
+└── docs/
+```
+
+In that layout, `/ai` is the agent-system root, `/ai/sparc/` contains SPARC
+files, `/ai/docs/` contains SPARC-described app documentation, `/ai/pact/`
+belongs to PACT or another execution layer, and `/ai/raw/` stores examples,
+raw data, and imported source material.
+
+This does not make SPARC an executor. SPARC still owns only its package,
+templates, and generated live contracts.
 
 ## Quick Start
 
@@ -87,6 +115,10 @@ Specification Protocol for Agent Runtime Contracts (SPARC) says where project
 truth lives.
 
 PACT says who does what, when, and under which execution rules.
+
+SPARC can serve as PACT's expected-result standardization layer. It defines
+where current truth, expected result, gaps, conflicts, and accepted result logs
+live while PACT coordinates execution.
 
 PACT is developed separately from the SPARC core package.
 

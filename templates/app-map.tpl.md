@@ -1,23 +1,23 @@
 ## META
 
 name: app-map.tpl.md
-version: 1.0
+version: 1.1
 type: template
 for: MAP.md
 
 ## USE
 
-`MAP.md` is the live structural index and relevant project file inventory for
-one application.
+`MAP.md` is the live structural index, first structural entry point, and
+relevant project file inventory for one application.
 
 Recommended path:
 
 ```txt
-/docs/<app-name-en>/map/MAP.md
+<docs-root>/<app-name-en>/map/MAP.md
 ```
 
 It is used to understand the app map layer, project file inventory, important
-structural zones, entrypoints, and unmapped areas.
+structural zones, entrypoints, attached parts, and unmapped areas.
 
 `MAP.md` describes where things are.
 
@@ -32,6 +32,8 @@ It must contain:
 - the structure of the map layer itself;
 - all split map files;
 - the complete relevant project file inventory;
+- attached parts such as modules, plugins, integrations, extension points,
+  route systems, UI subsystems, service layers, and data layers;
 - high-level responsibility zones;
 - known structural gaps.
 
@@ -84,6 +86,22 @@ If an important area exists but is not mapped, list it in `GAPS`.
 `MAP.md` may link to `LOGIC.md` when behavior is relevant, but must not
 duplicate application logic.
 
+### Attached Parts Rule
+
+`MAP.md` is the first structural entry point for attached parts.
+
+Attached parts are app components that should be discoverable before an agent
+edits the project. Examples include modules, plugins, integrations, extension
+points, route systems, UI subsystems, service layers, and data layers.
+
+If no attached parts exist, `MAP.md` should say so explicitly.
+
+If an attached part is compact, list it directly in `MAP.md`.
+
+If an attached part becomes large, detailed, or independently maintained, split
+its structural details into a named map-layer file and list that file in
+`MAP.md`.
+
 ### Split Rule
 
 `MAP.md` may be split into additional map files when a structural area becomes
@@ -92,7 +110,7 @@ too large, too detailed, or semantically independent.
 Additional map files must be placed inside:
 
 ```txt
-/docs/<app-name-en>/map/
+<docs-root>/<app-name-en>/map/
 ```
 
 Each additional map file must be named by the meaning of the structure it
@@ -196,6 +214,16 @@ This section lists all files that belong to the app map layer.
 - `map/services.md` - services, adapters, and external integrations.
 - `map/ui.md` - view and component structure.
 
+### Attached Parts
+
+This section lists app modules, plugins, integrations, extension points, and
+other independently meaningful structural parts.
+
+- `routes` - page and route entrypoint structure; details in `map/routes.md`.
+- `services` - service and integration boundaries; details in
+  `map/services.md`.
+- `ui` - view and component structure; details in `map/ui.md`.
+
 ### Project File Inventory
 
 This section lists relevant project files.
@@ -222,12 +250,12 @@ This section lists relevant project files.
 
 #### Documentation Contracts
 
-- `/docs/PLATFORM-LOGIC.md`
-- `/docs/example-app/map/*`
-- `/docs/example-app/logic/LOGIC.md`
-- `/docs/example-app/changes/LOG.md`
-- `/docs/example-app/changes/daily/*.log.md`
-- `/docs/example-app/design/DESIGN.md`
+- `/ai/docs/PLATFORM-LOGIC.md`
+- `/ai/docs/example-app/map/*`
+- `/ai/docs/example-app/logic/LOGIC.md`
+- `/ai/docs/example-app/changes/LOG.md`
+- `/ai/docs/example-app/changes/daily/*.log.md`
+- `/ai/docs/example-app/design/DESIGN.md`
 
 ### Responsibility Zones
 
@@ -235,7 +263,7 @@ This section lists relevant project files.
 - `src/models/` contains data contracts and validation.
 - `src/services/` contains integration boundaries and side effects.
 - `src/views/` contains presentation components.
-- `/docs/example-app/map/` contains app structural maps.
+- `/ai/docs/example-app/map/` contains app structural maps.
 
 ### Excluded From Inventory
 

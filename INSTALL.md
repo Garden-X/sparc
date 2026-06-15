@@ -1,6 +1,6 @@
 # INSTALL
 
-> For: Specification Protocol for Agent Runtime Contracts (SPARC) 01.00
+> For: Specification Protocol for Agent Runtime Contracts (SPARC) 01.01
 > Purpose: attach Specification Protocol for Agent Runtime Contracts (SPARC) to a project
 
 ## PURPOSE
@@ -29,7 +29,7 @@ contract files.
 SPARC is project-agnostic until it is attached to a target project.
 
 Installation attaches the reusable SPARC package to one project by creating or
-verifying live project contract files under `/docs`.
+verifying live project contract files under the mapped documentation root.
 
 SPARC does not govern agent behavior outside SPARC contract handling.
 
@@ -42,10 +42,11 @@ PACT or another execution layer may define task execution and coordination.
 Specification Protocol for Agent Runtime Contracts (SPARC) may be installed
 directly or as a prerequisite of another system such as PACT.
 
-An external installer, for example `INSTALL-PACT.md`, may:
+An external installer, for example `PACT-INSTALL.md`, may:
 
 1. reference the SPARC repository;
-2. place the SPARC package under `/ai/`, normally `/ai/sparc_01.00/`;
+2. place the SPARC package under `/ai/sparc/`, or use a versioned mapped path
+   such as `/ai/sparc_01.01/`;
 3. run the SPARC installation procedure defined by this `INSTALL.md`;
 4. continue with its own non-SPARC installation steps.
 
@@ -93,8 +94,8 @@ package files, but do not rewrite them for the target project.
 Identify before installation:
 
 - project root;
-- SPARC package path, for example `/ai/sparc_01.00/`;
-- documentation root, normally `/docs/`;
+- SPARC package path, for example `/ai/sparc/` or `/ai/sparc_01.01/`;
+- documentation root, normally `/ai/docs/` in an Agent OS layout;
 - application English name or stable English slug;
 - existing project structure;
 - existing behavior or logic documentation;
@@ -111,7 +112,9 @@ Recommended installed shape:
 
 ```txt
 /ai/
-  sparc_01.00/
+  pact/
+  raw/
+  sparc/
     README.md
     SPARC.md
     INSTALL.md
@@ -126,6 +129,44 @@ Recommended installed shape:
       app-log.tpl.md
       design.tpl.md
 
+  docs/
+    PLATFORM-LOGIC.md
+
+    <app-name-en>/
+      map/
+        MAP.md
+      logic/
+        LOGIC.md
+      changes/
+        LOG.md
+        daily/
+      design/
+        DESIGN.md
+```
+
+Required installed files in the Agent OS layout:
+
+```txt
+/ai/docs/PLATFORM-LOGIC.md
+/ai/docs/<app-name-en>/map/MAP.md
+/ai/docs/<app-name-en>/logic/LOGIC.md
+/ai/docs/<app-name-en>/changes/LOG.md
+/ai/docs/<app-name-en>/design/DESIGN.md
+```
+
+Required installed folders:
+
+```txt
+/ai/docs/<app-name-en>/changes/daily/
+```
+
+Standalone SPARC installations may use another mapped documentation root, such
+as `/docs/`, but the chosen root must contain only SPARC-described app
+documentation.
+
+Required standalone shape under a `/docs/` root:
+
+```txt
 /docs/
   PLATFORM-LOGIC.md
 
@@ -141,7 +182,7 @@ Recommended installed shape:
       DESIGN.md
 ```
 
-Required installed files:
+Required standalone installed files:
 
 ```txt
 /docs/PLATFORM-LOGIC.md
@@ -151,7 +192,7 @@ Required installed files:
 /docs/<app-name-en>/design/DESIGN.md
 ```
 
-Required installed folders:
+Required standalone installed folders:
 
 ```txt
 /docs/<app-name-en>/changes/daily/
@@ -202,16 +243,16 @@ This project uses SPARC as its contract specification layer.
 For SPARC file handling, template usage, contract updates, conflicts, gaps, and
 boundaries, follow:
 
-- `/ai/sparc_01.00/SPARC.md`
-- `/ai/sparc_01.00/templates/*.tpl.md`
+- `/ai/sparc/SPARC.md`
+- `/ai/sparc/templates/*.tpl.md`
 
 For current project truth, read:
 
-- `/docs/PLATFORM-LOGIC.md`
-- `/docs/<app-name-en>/map/MAP.md`
-- `/docs/<app-name-en>/logic/LOGIC.md`
-- `/docs/<app-name-en>/changes/LOG.md`
-- `/docs/<app-name-en>/design/DESIGN.md`
+- `/ai/docs/PLATFORM-LOGIC.md`
+- `/ai/docs/<app-name-en>/map/MAP.md`
+- `/ai/docs/<app-name-en>/logic/LOGIC.md`
+- `/ai/docs/<app-name-en>/changes/LOG.md`
+- `/ai/docs/<app-name-en>/design/DESIGN.md`
 
 Agent behavior files may define execution behavior.
 
@@ -248,8 +289,8 @@ SPARC contracts must not define task execution behavior.
 
 Use templates only when creating, updating, or validating live contract files.
 
-Only generated live contract files in `/docs` are created, updated, or appended
-during installation and project work.
+Only generated live contract files in the mapped documentation root are
+created, updated, or appended during installation and project work.
 
 Do not write project-specific truth into:
 
@@ -264,15 +305,15 @@ templates/*.tpl.md
 ```
 
 ```txt
-templates/platform-logic.tpl.md -> /docs/PLATFORM-LOGIC.md
-templates/app-map.tpl.md        -> /docs/<app-name-en>/map/MAP.md
-templates/app-logic.tpl.md      -> /docs/<app-name-en>/logic/LOGIC.md
-templates/app-log.tpl.md        -> /docs/<app-name-en>/changes/LOG.md
-templates/app-log.tpl.md        -> /docs/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
-templates/design.tpl.md         -> /docs/<app-name-en>/design/DESIGN.md
+templates/platform-logic.tpl.md -> <docs-root>/PLATFORM-LOGIC.md
+templates/app-map.tpl.md        -> <docs-root>/<app-name-en>/map/MAP.md
+templates/app-logic.tpl.md      -> <docs-root>/<app-name-en>/logic/LOGIC.md
+templates/app-log.tpl.md        -> <docs-root>/<app-name-en>/changes/LOG.md
+templates/app-log.tpl.md        -> <docs-root>/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
+templates/design.tpl.md         -> <docs-root>/<app-name-en>/design/DESIGN.md
 ```
 
-Create `/docs/<app-name-en>/changes/daily/` as a folder.
+Create `<docs-root>/<app-name-en>/changes/daily/` as a folder.
 
 Do not create `daily/YYYY-MM-DD.log.md` during initial installation unless the
 owner explicitly requires installation history to be recorded.
@@ -288,7 +329,7 @@ gap.
 After SPARC installation, update the app structural map:
 
 ```txt
-/docs/<app-name-en>/map/MAP.md
+<docs-root>/<app-name-en>/map/MAP.md
 ```
 
 This is the app/project map, not a web SEO `sitemap.xml`.
@@ -298,17 +339,30 @@ The map must include the installed documentation contract structure.
 The map must remain the app structural index and relevant project file
 inventory.
 
+The map is the first structural entry point for attached parts. It should list
+modules, plugins, integrations, extension points, route systems, UI subsystems,
+service layers, data layers, or other independently meaningful app parts when
+they exist.
+
 Recommended map entry:
 
 ```md
 ### Documentation Contracts
 
-- `/docs/PLATFORM-LOGIC.md` - global platform logic.
-- `/docs/<app-name-en>/map/*` - app structural map layer.
-- `/docs/<app-name-en>/logic/LOGIC.md` - app behavior contract.
-- `/docs/<app-name-en>/changes/LOG.md` - accepted summary ledger.
-- `/docs/<app-name-en>/changes/daily/*.log.md` - request-level daily work logs.
-- `/docs/<app-name-en>/design/DESIGN.md` - design contract.
+- `<docs-root>/PLATFORM-LOGIC.md` - global platform logic.
+- `<docs-root>/<app-name-en>/map/*` - app structural map layer.
+- `<docs-root>/<app-name-en>/logic/LOGIC.md` - app behavior contract.
+- `<docs-root>/<app-name-en>/changes/LOG.md` - accepted summary ledger.
+- `<docs-root>/<app-name-en>/changes/daily/*.log.md` - request-level daily work logs.
+- `<docs-root>/<app-name-en>/design/DESIGN.md` - design contract.
+```
+
+Recommended attached-parts entry:
+
+```md
+### Attached Parts
+
+- None yet.
 ```
 
 This update is part of installation bootstrap.
@@ -325,7 +379,7 @@ SPARC installation does not create daily request logs by default.
 Do not create:
 
 ```txt
-/docs/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
+<docs-root>/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
 ```
 
 only because SPARC was installed.
@@ -333,7 +387,7 @@ only because SPARC was installed.
 Do not append to:
 
 ```txt
-/docs/<app-name-en>/changes/LOG.md
+<docs-root>/<app-name-en>/changes/LOG.md
 ```
 
 only because SPARC was installed.
@@ -353,16 +407,18 @@ After installation, verify:
 
 ### Contract Checks
 
-- [ ] `/docs/PLATFORM-LOGIC.md` exists.
-- [ ] `/docs/<app-name-en>/map/MAP.md` exists.
-- [ ] `/docs/<app-name-en>/logic/LOGIC.md` exists.
-- [ ] `/docs/<app-name-en>/changes/LOG.md` exists.
-- [ ] `/docs/<app-name-en>/changes/daily/` exists.
-- [ ] `/docs/<app-name-en>/design/DESIGN.md` exists.
+- [ ] `<docs-root>/PLATFORM-LOGIC.md` exists.
+- [ ] `<docs-root>/<app-name-en>/map/MAP.md` exists.
+- [ ] `<docs-root>/<app-name-en>/logic/LOGIC.md` exists.
+- [ ] `<docs-root>/<app-name-en>/changes/LOG.md` exists.
+- [ ] `<docs-root>/<app-name-en>/changes/daily/` exists.
+- [ ] `<docs-root>/<app-name-en>/design/DESIGN.md` exists.
 
 ### Map Checks
 
 - [ ] `MAP.md` records the documentation contract topology.
+- [ ] `MAP.md` records attached parts or explicitly states that none are
+      attached yet.
 - [ ] `MAP.md` does not enumerate individual daily log files.
 - [ ] `MAP.md` uses `changes/daily/*.log.md` for daily logs.
 

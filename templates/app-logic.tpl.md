@@ -1,7 +1,7 @@
 ## META
 
 name: app-logic.tpl.md
-version: 1.0
+version: 1.1
 type: template
 for: LOGIC.md
 
@@ -12,7 +12,7 @@ for: LOGIC.md
 Recommended path:
 
 ```txt
-/docs/<app-name-en>/logic/LOGIC.md
+<docs-root>/<app-name-en>/logic/LOGIC.md
 ```
 
 It is used to understand application rules, flows, permissions, invariants, and
@@ -55,7 +55,8 @@ It must not contain:
 
 If a behavior is unclear, list it in `GAPS` instead of inventing it.
 
-If a platform rule overrides app behavior, reference `/docs/PLATFORM-LOGIC.md`.
+If a platform rule overrides app behavior, reference
+`<docs-root>/PLATFORM-LOGIC.md`.
 
 ## EXAMPLE
 

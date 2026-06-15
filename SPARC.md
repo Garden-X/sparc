@@ -1,6 +1,6 @@
 # Specification Protocol for Agent Runtime Contracts (SPARC) Specification
 
-> Version: 01.00
+> Version: 01.01
 > Status: minimal specification package
 > Purpose: file contracts for stable project context
 
@@ -37,6 +37,9 @@ SPARC is a contract specification.
 
 SPARC is not an execution system.
 
+SPARC is declarative and structural. It provides deterministic file-driven
+discovery for project context, not workflow execution.
+
 ## SPARC And PACT
 
 **PACT** - **Protocol for Agent Coordination and Tasks**.
@@ -48,6 +51,13 @@ handoffs, worker routing, input interfaces, and runtime state.
 SPARC does not define any of that.
 
 SPARC defines the contracts that PACT or another execution system may read.
+
+SPARC can serve as the expected-result standardization layer for PACT. In that
+role, SPARC defines where the expected result, current truth, structural map,
+logic, design, gaps, conflicts, and accepted-result logs live.
+
+This does not make PACT part of SPARC. PACT remains the execution and
+coordination layer.
 
 ```txt
 SPARC says where project truth lives.
@@ -64,6 +74,36 @@ target project.
 That bootstrap order does not make PACT part of SPARC. SPARC still governs only
 the specification package, templates, and generated live contract files.
 
+## Agent OS Placement
+
+SPARC may be installed inside a broader Agent OS layout:
+
+```txt
+/ai
+├── pact/
+├── raw/
+├── sparc/
+└── docs/
+```
+
+`/ai` itself is not SPARC. It is the broader agent-system root.
+
+`/ai/pact/` is PACT or execution-system territory.
+
+`/ai/raw/` is imported source material, examples, and raw data, not live SPARC
+contract truth.
+
+`/ai/sparc/` is SPARC package territory.
+
+`/ai/docs/` is SPARC-described app documentation territory. It must contain app
+documentation described by SPARC, and no PACT state, raw source material,
+agent workflow files, scripts, adapters, or cache files.
+
+This placement does not change SPARC's scope. SPARC remains the declarative
+contract/result standardization layer. It must not absorb agent workflow rules,
+task coordination, runtime state, adapters, queues, locks, retries, or
+schedulers from the surrounding Agent OS.
+
 ## System Boundaries
 
 SPARC is project-agnostic.
@@ -71,6 +111,10 @@ SPARC is project-agnostic.
 SPARC defines reusable structural contracts for context. It does not know the
 business meaning, runtime implementation, or application-specific behavior of a
 target project.
+
+SPARC discovery must be explicit and deterministic. Agents must not infer hidden
+inheritance, implicit merge behavior, or unstated authority from folder shape
+alone.
 
 PACT is agent-agnostic.
 
@@ -154,7 +198,32 @@ this specification to avoid extra files that agents would have to load anyway.
 ## Generated Project Contracts
 
 When SPARC is installed into a project, it creates or updates live contract
-files. The recommended generated docs shape is:
+files.
+
+In the Agent OS layout, the documentation root is `/ai/docs/`:
+
+```txt
+/ai/docs/
+  PLATFORM-LOGIC.md
+
+  <app-name-en>/
+    map/
+      MAP.md
+    logic/
+      LOGIC.md
+    changes/
+      LOG.md
+      daily/
+        YYYY-MM-DD.log.md
+    design/
+      DESIGN.md
+```
+
+Standalone installations may use another mapped documentation root, such as
+`/docs/`, as long as that root contains only SPARC-described app
+documentation.
+
+Standalone generated docs shape:
 
 ```txt
 /docs/
@@ -196,13 +265,14 @@ templates/*.tpl.md = instructions for creating or updating a contract
 *.md               = live contract file with current project truth
 ```
 
-During project installation or project work, only live contract files in
-`/docs` are created, updated, or appended according to templates.
+During project installation or project work, only live contract files in the
+mapped documentation root are created, updated, or appended according to
+templates. In the Agent OS layout, that root is `/ai/docs/`.
 
 Static specification package files are changed only when maintaining or
 releasing SPARC itself.
 
-Required live contracts in `/docs`:
+Required live contracts in the mapped documentation root:
 
 ```txt
 PLATFORM-LOGIC.md
@@ -224,15 +294,25 @@ records the gap.
 | File | Source of truth for |
 |---|---|
 | `PLATFORM-LOGIC.md` | global platform rules that override app-level logic |
-| `MAP.md` | structural index, relevant project file inventory, map-layer structure, responsibility zones |
+| `MAP.md` | first structural entry point, relevant project file inventory, attached parts, map-layer structure, responsibility zones |
 | `LOGIC.md` | app behavior, rules, flows, permissions, invariants |
 | `LOG.md` | app changelog: date and accepted change summary |
 | `daily/YYYY-MM-DD.log.md` | request-level daily work log with actor and time |
 | `DESIGN.md` | design-system contract: `google-labs-code/design.md` format, tokens, rationale, local UI/UX rules |
 
-`MAP.md` is the canonical structural index of the app. It lists the map layer,
-split map files, relevant project file inventory, responsibility zones, and
-structural gaps.
+`MAP.md` is the canonical structural index and first structural entry point of
+the app. It lists the map layer, split map files, relevant project file
+inventory, attached parts, responsibility zones, and structural gaps.
+
+Attached parts are app components that should be discoverable from the
+structural map before an agent edits the project. Examples include modules,
+plugins, integrations, route systems, UI subsystems, service layers, data
+layers, extension points, and other independently meaningful app parts.
+
+`MAP.md` must list attached parts directly when the list is compact. If an
+attached part becomes too detailed, split its structural details into a named
+map-layer file under `<docs-root>/<app-name-en>/map/` and list that file in
+`MAP.md`.
 
 `MAP.md` must not enumerate individual daily log files. Use
 `changes/daily/*.log.md`.
@@ -268,13 +348,14 @@ or an applicable design skill is available.
 
 ## Non-Core Companion Files
 
-SPARC 01.00 does not require task, agent, draft, runtime-state, contract-code,
+SPARC 01.01 does not require task, agent, draft, runtime-state, contract-code,
 or implementation-plan files.
 
 Examples of non-core files:
 
 ```txt
 TODO.md
+TASKS.md
 STATE.md
 APP-LOGIC-DRAFT.md
 AGENTS.md
@@ -287,6 +368,12 @@ Projects or PACT may add those files later.
 
 If they exist, they are external companions owned by the project, PACT, or
 another execution system. They must not override SPARC live contracts.
+
+When present, `AGENTS.md` is a PACT-owned workflow rules container for agents,
+not a SPARC live contract.
+
+External companion files such as `AGENTS.md` and `AGENTS-INSTALL.md` are not
+SPARC cascade children.
 
 ## File Layers
 
@@ -317,7 +404,7 @@ They are static package files, not templates and not live contracts.
 ### Platform Contract
 
 ```txt
-/docs/PLATFORM-LOGIC.md
+<docs-root>/PLATFORM-LOGIC.md
 ```
 
 This file defines platform-wide rules and invariants.
@@ -325,11 +412,11 @@ This file defines platform-wide rules and invariants.
 ### App Input Contracts
 
 ```txt
-/docs/<app-name-en>/map/MAP.md
-/docs/<app-name-en>/logic/LOGIC.md
-/docs/<app-name-en>/changes/LOG.md
-/docs/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
-/docs/<app-name-en>/design/DESIGN.md
+<docs-root>/<app-name-en>/map/MAP.md
+<docs-root>/<app-name-en>/logic/LOGIC.md
+<docs-root>/<app-name-en>/changes/LOG.md
+<docs-root>/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
+<docs-root>/<app-name-en>/design/DESIGN.md
 ```
 
 These files define app-scoped current truth.
@@ -356,7 +443,8 @@ Use `templates/*.tpl.md` as writing instructions.
 Templates are package instructions, not project working files. Do not write
 project-specific truth into templates.
 
-Create, update, or append only the generated live contract files in `/docs`.
+Create, update, or append only the generated live contract files in the mapped
+documentation root.
 
 Live contracts must follow their matching templates.
 
@@ -375,19 +463,19 @@ Read `license/LICENSE.md`, `license/COMMERCIAL-LICENSE.md`, and
 `license/NOTICE.md` for repository use, distribution, and licensing questions.
 They are not needed for ordinary SPARC contract-file updates.
 
-Read `/docs/PLATFORM-LOGIC.md` for platform-wide rules.
+Read `<docs-root>/PLATFORM-LOGIC.md` for platform-wide rules.
 
-Read `/docs/<app-name-en>/map/MAP.md` for app structure and relevant project
+Read `<docs-root>/<app-name-en>/map/MAP.md` for app structure and relevant project
 file inventory.
 
-Read `/docs/<app-name-en>/logic/LOGIC.md` for app behavior.
+Read `<docs-root>/<app-name-en>/logic/LOGIC.md` for app behavior.
 
-Read `/docs/<app-name-en>/changes/LOG.md` for accepted change summaries.
+Read `<docs-root>/<app-name-en>/changes/LOG.md` for accepted change summaries.
 
-Read `/docs/<app-name-en>/changes/daily/YYYY-MM-DD.log.md` for request-level
+Read `<docs-root>/<app-name-en>/changes/daily/YYYY-MM-DD.log.md` for request-level
 daily work details.
 
-Read `/docs/<app-name-en>/design/DESIGN.md` for design constraints.
+Read `<docs-root>/<app-name-en>/design/DESIGN.md` for design constraints.
 
 Do not read a template for simple understanding of an existing live contract.
 
@@ -408,12 +496,12 @@ Template files use this naming pattern:
 Template mapping:
 
 ```txt
-templates/platform-logic.tpl.md -> /docs/PLATFORM-LOGIC.md
-templates/app-map.tpl.md        -> /docs/<app-name-en>/map/MAP.md
-templates/app-logic.tpl.md      -> /docs/<app-name-en>/logic/LOGIC.md
-templates/app-log.tpl.md        -> /docs/<app-name-en>/changes/LOG.md
-templates/app-log.tpl.md        -> /docs/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
-templates/design.tpl.md         -> /docs/<app-name-en>/design/DESIGN.md
+templates/platform-logic.tpl.md -> <docs-root>/PLATFORM-LOGIC.md
+templates/app-map.tpl.md        -> <docs-root>/<app-name-en>/map/MAP.md
+templates/app-logic.tpl.md      -> <docs-root>/<app-name-en>/logic/LOGIC.md
+templates/app-log.tpl.md        -> <docs-root>/<app-name-en>/changes/LOG.md
+templates/app-log.tpl.md        -> <docs-root>/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
+templates/design.tpl.md         -> <docs-root>/<app-name-en>/design/DESIGN.md
 ```
 
 Each template uses:
@@ -469,7 +557,9 @@ known gaps, write `None.`
 
 Update the file responsible for the truth that changed.
 
-If app structure or relevant project file inventory changes, update `MAP.md`.
+If app structure, relevant project file inventory, attached parts, modules,
+plugins, integrations, extension points, or map-layer split files change,
+update `MAP.md`.
 
 If app behavior changes, update `LOGIC.md`.
 
@@ -570,6 +660,10 @@ Daily logs must not override current truth. They record request-level work.
 
 If precedence is unclear, list the issue in `GAPS` and expose the ambiguity.
 
+SPARC does not provide implicit merge semantics. If two files appear to define
+the same truth and no explicit precedence rule applies, record a conflict or
+gap instead of merging by interpretation.
+
 ## Gap Rules
 
 If required context is missing, do not invent it.
@@ -599,12 +693,15 @@ execution pipelines
 workflow orchestration
 ```
 
+Discovery is not execution. SPARC files must remain declarative, structural,
+and discoverable; they must not become workflow runners or task state machines.
+
 SPARC may say which contract file contains the truth.
 
 SPARC must not say which agent should execute which task or how execution is
 coordinated.
 
-SPARC 01.00 also does not define `TODO.md`, `STATE.md`,
+SPARC 01.01 also does not define `TASKS.md`, `TODO.md`, `STATE.md`,
 `APP-LOGIC-DRAFT.md`, `AGENTS.md`, `AGENTS-INSTALL.md`, `APP-CONTRACT.ts`, or
 `IMPLEMENTATION-PLAN.md`. Those may exist in PACT or in project-specific
 systems, but they are not SPARC core contracts.

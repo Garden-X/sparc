@@ -1,7 +1,7 @@
 ## META
 
 name: design.tpl.md
-version: 1.0
+version: 1.1
 type: template
 for: DESIGN.md
 
@@ -12,7 +12,7 @@ for: DESIGN.md
 Recommended path:
 
 ```txt
-/docs/<app-name-en>/design/DESIGN.md
+<docs-root>/<app-name-en>/design/DESIGN.md
 ```
 
 It gives humans and agents a persistent, structured understanding of the app's

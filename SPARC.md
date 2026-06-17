@@ -1,6 +1,7 @@
 # Specification Protocol for Agent Runtime Contracts (SPARC) Specification
 
-> Version: 01.01
+> Version: 01.02
+> Updated: 2026-06-17 03:55:16 UTC+00:00
 > Status: minimal specification package
 > Purpose: file contracts for stable project context
 
@@ -170,6 +171,7 @@ license/
 templates/
   app-map.tpl.md
   app-logic.tpl.md
+  app-schema.tpl.md
   platform-logic.tpl.md
   app-log.tpl.md
   design.tpl.md
@@ -211,6 +213,8 @@ In the Agent OS layout, the documentation root is `/ai/docs/`:
       MAP.md
     logic/
       LOGIC.md
+    schema/
+      SCHEMA.md
     changes/
       LOG.md
       daily/
@@ -250,7 +254,7 @@ Lowercase kebab-case is recommended.
 applications.
 
 App-level files live under the app folder because `MAP.md`, `LOGIC.md`,
-`LOG.md`, daily logs, and `DESIGN.md` are scoped app inputs.
+`SCHEMA.md`, `LOG.md`, daily logs, and `DESIGN.md` are scoped app inputs.
 
 Dated daily log files are created only when request-level work is recorded.
 
@@ -278,6 +282,7 @@ Required live contracts in the mapped documentation root:
 PLATFORM-LOGIC.md
 <app-name-en>/map/MAP.md
 <app-name-en>/logic/LOGIC.md
+<app-name-en>/schema/SCHEMA.md
 <app-name-en>/changes/LOG.md
 <app-name-en>/changes/daily/
 <app-name-en>/design/DESIGN.md
@@ -296,6 +301,7 @@ records the gap.
 | `PLATFORM-LOGIC.md` | global platform rules that override app-level logic |
 | `MAP.md` | first structural entry point, relevant project file inventory, attached parts, map-layer structure, responsibility zones |
 | `LOGIC.md` | app behavior, rules, flows, permissions, invariants |
+| `SCHEMA.md` | app data shape: entities, fields, enums, constraints, indexes, relations, references, public dataset views |
 | `LOG.md` | app changelog: date and accepted change summary |
 | `daily/YYYY-MM-DD.log.md` | request-level daily work log with actor and time |
 | `DESIGN.md` | design-system contract: `google-labs-code/design.md` format, tokens, rationale, local UI/UX rules |
@@ -318,6 +324,14 @@ map-layer file under `<docs-root>/<app-name-en>/map/` and list that file in
 `changes/daily/*.log.md`.
 
 `LOGIC.md` is current behavior.
+
+`SCHEMA.md` is current data shape. It records the application schema contract
+for humans and agents: entities, storage structures, fields, types, enums,
+constraints, indexes, relations, cross-application references, and public
+dataset views when the project exposes them. Runtime files such as
+`schema.ts`, `dataset-schema.ts`, `APP-SCHEMA.ts`, migrations, DTOs, and
+validation schemas implement or mirror this contract; they do not replace the
+SPARC schema contract.
 
 `LOG.md` is the app changelog. It contains only the date and what changed.
 
@@ -348,7 +362,7 @@ or an applicable design skill is available.
 
 ## Non-Core Companion Files
 
-SPARC 01.01 does not require task, agent, draft, runtime-state, contract-code,
+SPARC 01.02 does not require task, agent, draft, runtime-state, contract-code,
 or implementation-plan files.
 
 Examples of non-core files:
@@ -414,6 +428,7 @@ This file defines platform-wide rules and invariants.
 ```txt
 <docs-root>/<app-name-en>/map/MAP.md
 <docs-root>/<app-name-en>/logic/LOGIC.md
+<docs-root>/<app-name-en>/schema/SCHEMA.md
 <docs-root>/<app-name-en>/changes/LOG.md
 <docs-root>/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
 <docs-root>/<app-name-en>/design/DESIGN.md
@@ -470,6 +485,9 @@ file inventory.
 
 Read `<docs-root>/<app-name-en>/logic/LOGIC.md` for app behavior.
 
+Read `<docs-root>/<app-name-en>/schema/SCHEMA.md` for app data shape and schema
+contracts.
+
 Read `<docs-root>/<app-name-en>/changes/LOG.md` for accepted change summaries.
 
 Read `<docs-root>/<app-name-en>/changes/daily/YYYY-MM-DD.log.md` for request-level
@@ -499,6 +517,7 @@ Template mapping:
 templates/platform-logic.tpl.md -> <docs-root>/PLATFORM-LOGIC.md
 templates/app-map.tpl.md        -> <docs-root>/<app-name-en>/map/MAP.md
 templates/app-logic.tpl.md      -> <docs-root>/<app-name-en>/logic/LOGIC.md
+templates/app-schema.tpl.md     -> <docs-root>/<app-name-en>/schema/SCHEMA.md
 templates/app-log.tpl.md        -> <docs-root>/<app-name-en>/changes/LOG.md
 templates/app-log.tpl.md        -> <docs-root>/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
 templates/design.tpl.md         -> <docs-root>/<app-name-en>/design/DESIGN.md
@@ -517,6 +536,21 @@ Each template uses:
 ```
 
 `META` identifies the template.
+
+Template META fields use this order:
+
+```txt
+name
+type
+...
+for
+updated
+version
+```
+
+The final three fields are always `for`, `updated`, and `version` in that
+order. Additional template metadata, when needed, belongs between `type` and
+`for`.
 
 `USE` explains what the target contract file is for.
 
@@ -544,7 +578,16 @@ Live contract files generally use:
 ## GAPS
 ```
 
-`META` identifies the document and version.
+`META` identifies the document, version, and update stamp.
+
+Live contract `META` should include:
+
+```txt
+updated: YYYY-MM-DD HH:mm:ss UTC+00:00
+```
+
+Use only `UTC+00:00` for update stamps. Do not write local timezone names,
+IANA timezone names, city names, or other location-bearing timezone labels.
 
 `PURPOSE` states what the document is responsible for.
 
@@ -563,6 +606,9 @@ update `MAP.md`.
 
 If app behavior changes, update `LOGIC.md`.
 
+If app data shape, persistence shape, schema version, data references, public
+dataset views, or runtime schema artifacts change, update `SCHEMA.md`.
+
 If a platform invariant changes, update `PLATFORM-LOGIC.md`.
 
 If a request changes app truth, append the request-level record to the current
@@ -575,6 +621,10 @@ update `DESIGN.md`.
 
 When a change affects current truth and history, update the current contract
 first, append the daily entry, then promote accepted summary into `LOG.md`.
+
+When a meaningful Markdown content change is made, refresh that file's
+`updated` stamp. Do not refresh `updated` for mirror-only, sync-only, or file
+metadata changes.
 
 Daily log entries must use the standard request-level format:
 
@@ -650,6 +700,10 @@ Follow `app-map.tpl.md` for map split rules.
 
 `PLATFORM-LOGIC.md` overrides app-level contracts.
 
+`LOGIC.md` and `SCHEMA.md` own different scopes. If behavior and data shape
+appear to conflict, expose the conflict and update the responsible live
+contract instead of silently merging them.
+
 `LOGIC.md` overrides `DESIGN.md` when behavior and design conflict.
 
 `MAP.md` must not override behavior. It only maps structure.
@@ -701,7 +755,7 @@ SPARC may say which contract file contains the truth.
 SPARC must not say which agent should execute which task or how execution is
 coordinated.
 
-SPARC 01.01 also does not define `TASKS.md`, `TODO.md`, `STATE.md`,
+SPARC 01.02 also does not define `TASKS.md`, `TODO.md`, `STATE.md`,
 `APP-LOGIC-DRAFT.md`, `AGENTS.md`, `AGENTS-INSTALL.md`, `APP-CONTRACT.ts`, or
 `IMPLEMENTATION-PLAN.md`. Those may exist in PACT or in project-specific
 systems, but they are not SPARC core contracts.
@@ -715,8 +769,16 @@ do not need to read it.
 
 Each template has its own template version.
 
-Each live contract file should declare its own document version and
-`last_updated` date in `META`.
+Each maintained SPARC Markdown file should declare its own privacy-safe
+`updated` stamp:
+
+```txt
+updated: YYYY-MM-DD HH:mm:ss UTC+00:00
+```
 
 Change the package version only when the contract model changes. Small wording
 fixes inside examples do not require a new package version.
+
+Version fields remain compatibility and template-drift markers. They are
+secondary to `updated` when a human needs to know which file was touched most
+recently.

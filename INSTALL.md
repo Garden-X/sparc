@@ -1,7 +1,8 @@
 # INSTALL
 
-> For: Specification Protocol for Agent Runtime Contracts (SPARC) 01.01
+> For: Specification Protocol for Agent Runtime Contracts (SPARC) 01.02
 > Purpose: attach Specification Protocol for Agent Runtime Contracts (SPARC) to a project
+> Updated: 2026-06-16 23:37:13 UTC+00:00
 
 ## PURPOSE
 
@@ -46,7 +47,7 @@ An external installer, for example `PACT-INSTALL.md`, may:
 
 1. reference the SPARC repository;
 2. place the SPARC package under `/ai/sparc/`, or use a versioned mapped path
-   such as `/ai/sparc_01.01/`;
+   such as `/ai/sparc_01.02/`;
 3. run the SPARC installation procedure defined by this `INSTALL.md`;
 4. continue with its own non-SPARC installation steps.
 
@@ -77,6 +78,7 @@ templates/
   platform-logic.tpl.md
   app-map.tpl.md
   app-logic.tpl.md
+  app-schema.tpl.md
   app-log.tpl.md
   design.tpl.md
 ```
@@ -94,7 +96,7 @@ package files, but do not rewrite them for the target project.
 Identify before installation:
 
 - project root;
-- SPARC package path, for example `/ai/sparc/` or `/ai/sparc_01.01/`;
+- SPARC package path, for example `/ai/sparc/` or `/ai/sparc_01.02/`;
 - documentation root, normally `/ai/docs/` in an Agent OS layout;
 - application English name or stable English slug;
 - existing project structure;
@@ -125,6 +127,7 @@ Recommended installed shape:
     templates/
       app-map.tpl.md
       app-logic.tpl.md
+      app-schema.tpl.md
       platform-logic.tpl.md
       app-log.tpl.md
       design.tpl.md
@@ -137,6 +140,8 @@ Recommended installed shape:
         MAP.md
       logic/
         LOGIC.md
+      schema/
+        SCHEMA.md
       changes/
         LOG.md
         daily/
@@ -150,6 +155,7 @@ Required installed files in the Agent OS layout:
 /ai/docs/PLATFORM-LOGIC.md
 /ai/docs/<app-name-en>/map/MAP.md
 /ai/docs/<app-name-en>/logic/LOGIC.md
+/ai/docs/<app-name-en>/schema/SCHEMA.md
 /ai/docs/<app-name-en>/changes/LOG.md
 /ai/docs/<app-name-en>/design/DESIGN.md
 ```
@@ -158,6 +164,7 @@ Required installed folders:
 
 ```txt
 /ai/docs/<app-name-en>/changes/daily/
+/ai/docs/<app-name-en>/schema/
 ```
 
 Standalone SPARC installations may use another mapped documentation root, such
@@ -251,6 +258,7 @@ For current project truth, read:
 - `/ai/docs/PLATFORM-LOGIC.md`
 - `/ai/docs/<app-name-en>/map/MAP.md`
 - `/ai/docs/<app-name-en>/logic/LOGIC.md`
+- `/ai/docs/<app-name-en>/schema/SCHEMA.md`
 - `/ai/docs/<app-name-en>/changes/LOG.md`
 - `/ai/docs/<app-name-en>/design/DESIGN.md`
 
@@ -308,12 +316,14 @@ templates/*.tpl.md
 templates/platform-logic.tpl.md -> <docs-root>/PLATFORM-LOGIC.md
 templates/app-map.tpl.md        -> <docs-root>/<app-name-en>/map/MAP.md
 templates/app-logic.tpl.md      -> <docs-root>/<app-name-en>/logic/LOGIC.md
+templates/app-schema.tpl.md     -> <docs-root>/<app-name-en>/schema/SCHEMA.md
 templates/app-log.tpl.md        -> <docs-root>/<app-name-en>/changes/LOG.md
 templates/app-log.tpl.md        -> <docs-root>/<app-name-en>/changes/daily/YYYY-MM-DD.log.md
 templates/design.tpl.md         -> <docs-root>/<app-name-en>/design/DESIGN.md
 ```
 
 Create `<docs-root>/<app-name-en>/changes/daily/` as a folder.
+Create `<docs-root>/<app-name-en>/schema/` as a folder.
 
 Do not create `daily/YYYY-MM-DD.log.md` during initial installation unless the
 owner explicitly requires installation history to be recorded.
@@ -352,6 +362,7 @@ Recommended map entry:
 - `<docs-root>/PLATFORM-LOGIC.md` - global platform logic.
 - `<docs-root>/<app-name-en>/map/*` - app structural map layer.
 - `<docs-root>/<app-name-en>/logic/LOGIC.md` - app behavior contract.
+- `<docs-root>/<app-name-en>/schema/SCHEMA.md` - app data-shape contract.
 - `<docs-root>/<app-name-en>/changes/LOG.md` - accepted summary ledger.
 - `<docs-root>/<app-name-en>/changes/daily/*.log.md` - request-level daily work logs.
 - `<docs-root>/<app-name-en>/design/DESIGN.md` - design contract.
@@ -410,6 +421,7 @@ After installation, verify:
 - [ ] `<docs-root>/PLATFORM-LOGIC.md` exists.
 - [ ] `<docs-root>/<app-name-en>/map/MAP.md` exists.
 - [ ] `<docs-root>/<app-name-en>/logic/LOGIC.md` exists.
+- [ ] `<docs-root>/<app-name-en>/schema/SCHEMA.md` exists.
 - [ ] `<docs-root>/<app-name-en>/changes/LOG.md` exists.
 - [ ] `<docs-root>/<app-name-en>/changes/daily/` exists.
 - [ ] `<docs-root>/<app-name-en>/design/DESIGN.md` exists.

@@ -1,9 +1,10 @@
 ## META
 
 name: platform-logic.tpl.md
-version: 1.1
 type: template
 for: PLATFORM-LOGIC.md
+updated: 2026-06-17 03:55:16 UTC+00:00
+version: 1.1
 
 ## USE
 
@@ -67,8 +68,8 @@ Conflicts or unknown precedence must be listed in `GAPS`.
 ## META
 
 platform: example-platform
+updated: 2026-05-25 00:00:00 UTC+00:00
 version: 1.0
-last_updated: 2026-05-25
 
 ## PURPOSE
 

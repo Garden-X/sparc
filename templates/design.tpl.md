@@ -1,9 +1,10 @@
 ## META
 
 name: design.tpl.md
-version: 1.1
 type: template
 for: DESIGN.md
+updated: 2026-06-17 03:55:16 UTC+00:00
+version: 1.1
 
 ## USE
 
@@ -282,8 +283,8 @@ minimal decorative noise.
 
 project: example-app
 theme: default
+updated: 2026-05-25 00:00:00 UTC+00:00
 version: 1.0
-last_updated: 2026-05-25
 
 ## PURPOSE
 

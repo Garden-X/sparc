@@ -1,9 +1,10 @@
 ## META
 
 name: app-map.tpl.md
-version: 1.1
 type: template
 for: MAP.md
+updated: 2026-06-17 03:55:16 UTC+00:00
+version: 1.1
 
 ## USE
 
@@ -187,10 +188,10 @@ Daily logs grow over time. `MAP.md` must reference them by pattern.
 
 ## META
 
-app: example-app
-version: 1.0
-last_updated: 2026-05-25
 type: app structural map
+app: example-app
+updated: 2026-05-25 00:00:00 UTC+00:00
+version: 1.0
 
 ## PURPOSE
 
@@ -253,6 +254,7 @@ This section lists relevant project files.
 - `/ai/docs/PLATFORM-LOGIC.md`
 - `/ai/docs/example-app/map/*`
 - `/ai/docs/example-app/logic/LOGIC.md`
+- `/ai/docs/example-app/schema/SCHEMA.md`
 - `/ai/docs/example-app/changes/LOG.md`
 - `/ai/docs/example-app/changes/daily/*.log.md`
 - `/ai/docs/example-app/design/DESIGN.md`
@@ -264,6 +266,7 @@ This section lists relevant project files.
 - `src/services/` contains integration boundaries and side effects.
 - `src/views/` contains presentation components.
 - `/ai/docs/example-app/map/` contains app structural maps.
+- `/ai/docs/example-app/schema/SCHEMA.md` contains app data-shape truth.
 
 ### Excluded From Inventory
 

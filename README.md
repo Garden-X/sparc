@@ -1,5 +1,6 @@
 # Specification Protocol for Agent Runtime Contracts (SPARC)
 
+updated: 2026-06-16 23:37:13 UTC+00:00
 Specification Protocol for Agent Runtime Contracts (SPARC) is a minimal
 file-contract specification for keeping project context stable, explicit, and
 readable for humans and AI agents.
@@ -13,7 +14,7 @@ belong to PACT or another execution layer.
 
 ## Status
 
-Version: `01.01`
+Version: `01.02`
 
 Status: minimal specification package.
 
@@ -48,6 +49,7 @@ Specification Protocol for Agent Runtime Contracts (SPARC) gives a project:
 - a stable place for platform rules;
 - a stable place for app structure and relevant project file inventory;
 - a stable place for app behavior;
+- a stable place for app data shape and schema contracts;
 - a stable place for design-system rules;
 - a two-layer app log: accepted summaries and request-level daily entries;
 - templates for creating those files consistently.

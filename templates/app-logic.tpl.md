@@ -1,9 +1,10 @@
 ## META
 
 name: app-logic.tpl.md
-version: 1.1
 type: template
 for: LOGIC.md
+updated: 2026-06-17 03:55:16 UTC+00:00
+version: 1.1
 
 ## USE
 
@@ -66,8 +67,8 @@ If a platform rule overrides app behavior, reference
 ## META
 
 project: example-app
+updated: 2026-05-25 00:00:00 UTC+00:00
 version: 1.0
-last_updated: 2026-05-25
 
 ## PURPOSE
 

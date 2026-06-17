@@ -1,9 +1,10 @@
 ## META
 
 name: app-log.tpl.md
-version: 1.1
 type: template
 for: LOG.md and daily/YYYY-MM-DD.log.md
+updated: 2026-06-17 03:55:16 UTC+00:00
+version: 1.1
 
 ## USE
 
@@ -155,8 +156,8 @@ When a change alters current truth:
 ## META
 
 project: example-app
+updated: 2026-05-25 00:00:00 UTC+00:00
 version: 1.0
-last_updated: 2026-05-25
 
 ## PURPOSE
 
@@ -178,10 +179,10 @@ None.
 
 ## META
 
+type: daily request log
 project: example-app
 date: 2026-05-25
-timezone: Europe/Warsaw
-type: daily request log
+timezone: UTC+00:00
 
 ## PURPOSE
 

@@ -2,31 +2,42 @@
 
 name: app-schema.tpl.md
 type: template
-for: SCHEMA.md
-updated: 2026-06-17 03:55:16 UTC+00:00
-version: 1.0
+for: SCHEMA.ts
+updated: 2026-06-17 23:39:24 UTC+00:00
+version: 2.0
 
 ## USE
 
-`SCHEMA.md` is the live data-shape contract of one application.
+`SCHEMA.ts` is the live typed data-shape contract of one application.
 
 Recommended path:
 
 ```txt
-<docs-root>/<app-name-en>/schema/SCHEMA.md
+<docs-root>/<app-name-en>/schema/SCHEMA.ts
 ```
 
 It is used to understand application entities, tables, fields, enums,
 constraints, indexes, relations, cross-application references, public dataset
-views, and schema compatibility gaps.
+views, schema compatibility gaps, and runtime schema artifacts.
 
-`SCHEMA.md` describes how application data is shaped.
+`SCHEMA.ts` describes how application data is shaped. It does not describe
+application behavior or where files are located.
 
-It does not describe application behavior or where files are located.
+`SCHEMA.ts` replaces `SCHEMA.md` as the canonical SPARC schema contract. Do not
+keep `SCHEMA.md` as a parallel authority. If an older binding has `SCHEMA.md`,
+treat it as legacy material to migrate into `SCHEMA.ts`.
 
 ## RULES
 
-`SCHEMA.md` must describe current data shape only.
+`SCHEMA.ts` must be a self-contained, side-effect-free TypeScript data
+contract.
+
+It must export:
+
+- a `SparcSchemaContract` type;
+- a `schema` object using `as const satisfies SparcSchemaContract`.
+
+It may export supporting TypeScript types used by `SparcSchemaContract`.
 
 ### May Contain
 
@@ -49,6 +60,9 @@ It may contain:
 
 It must not contain:
 
+- imports from runtime, database, framework, generated, or application modules;
+- side effects, executable startup work, DB clients, migrations, or runtime
+  orchestration;
 - user flows;
 - feature behavior;
 - permission policy except where permission fields are part of stored shape;
@@ -56,12 +70,11 @@ It must not contain:
 - implementation diary entries;
 - task lists;
 - TODOs;
-- runtime orchestration;
 - agent coordination rules.
 
-If a data-shape decision is unclear, list it in `GAPS` instead of inventing it.
+If a data-shape decision is unclear, list it in `gaps` instead of inventing it.
 
-If behavior in `LOGIC.md` implies data shape not represented in `SCHEMA.md`,
+If behavior in `LOGIC.md` implies data shape not represented in `SCHEMA.ts`,
 record the conflict or update the responsible live contract with owner
 approval.
 
@@ -69,69 +82,147 @@ If a platform rule overrides app data shape, reference
 `<docs-root>/PLATFORM-LOGIC.md`.
 
 Runtime schema files implement or mirror the data contract. They do not replace
-`SCHEMA.md` as the human-readable SPARC schema contract.
+the SPARC `SCHEMA.ts` contract.
 
 ## EXAMPLE
 
-```md
-# SCHEMA.md
+```ts
+export type SparcSchemaScalar =
+  | "uuid"
+  | "string"
+  | "text"
+  | "integer"
+  | "number"
+  | "boolean"
+  | "datetime"
+  | "date"
+  | "json"
+  | "enum"
+  | "reference"
+  | "unknown";
 
-## META
+export type SparcSchemaField = {
+  type: SparcSchemaScalar;
+  required: boolean;
+  description?: string;
+  enumValues?: readonly string[];
+  references?: {
+    entity: string;
+    field?: string;
+  };
+  default?: string;
+  generated?: boolean;
+  primaryKey?: boolean;
+  unique?: boolean;
+};
 
-type: app schema contract
-project: example-app
-updated: 2026-05-25 00:00:00 UTC+00:00
-version: 1.0
+export type SparcSchemaEntity = {
+  storage?: string;
+  description?: string;
+  fields: Record<string, SparcSchemaField>;
+  constraints?: readonly string[];
+  indexes?: readonly string[];
+};
 
-## PURPOSE
+export type SparcDatasetView = {
+  description?: string;
+  fields: readonly string[];
+};
 
-Canonical data-shape contract for the application.
+export type SparcSchemaContract = {
+  meta: {
+    type: "app schema contract";
+    project: string;
+    updated: string;
+    version: string;
+  };
+  purpose: string;
+  runtimeArtifacts?: readonly {
+    path: string;
+    description?: string;
+  }[];
+  entities: Record<string, SparcSchemaEntity>;
+  datasetViews?: Record<string, SparcDatasetView>;
+  crossApplicationReferences?: readonly string[];
+  compatibility?: readonly string[];
+  gaps: readonly string[];
+};
 
-## CURRENT
-
-### Runtime Schema Artifacts
-
-- `src/db/schema.ts` - ORM table declarations.
-- `src/dataset-schema.ts` - public compact and full dataset views.
-
-### Entity: note
-
-Storage: `notes`
-
-Fields:
-
-| Field | Type | Required | Notes |
-|---|---|---|---|
-| `id` | uuid | yes | Primary key. |
-| `owner_id` | uuid | yes | User that owns the note. |
-| `title` | string | no | Optional display title. |
-| `body` | text | yes | Main note content. |
-| `status` | enum | yes | `draft`, `active`, or `archived`. |
-| `created_at` | datetime | yes | Generated on create. |
-| `updated_at` | datetime | yes | Updated on write. |
-
-Constraints and indexes:
-
-- Primary key: `id`.
-- Index: `owner_id`.
-- Index: `status`.
-
-### Dataset Views
-
-Compact fields:
-
-- `id`
-- `title`
-- `status`
-
-Full fields:
-
-- all compact fields
-- `body`
-- `created_at`
-- `updated_at`
-
-## GAPS
-
-None.
+export const schema = {
+  meta: {
+    type: "app schema contract",
+    project: "example-app",
+    updated: "2026-05-25 00:00:00 UTC+00:00",
+    version: "1.0",
+  },
+  purpose: "Canonical typed data-shape contract for the application.",
+  runtimeArtifacts: [
+    {
+      path: "src/db/schema.ts",
+      description: "ORM table declarations.",
+    },
+    {
+      path: "src/dataset-schema.ts",
+      description: "Public compact and full dataset views.",
+    },
+  ],
+  entities: {
+    note: {
+      storage: "notes",
+      fields: {
+        id: {
+          type: "uuid",
+          required: true,
+          primaryKey: true,
+          description: "Primary key.",
+        },
+        owner_id: {
+          type: "uuid",
+          required: true,
+          references: {
+            entity: "user",
+            field: "id",
+          },
+          description: "User that owns the note.",
+        },
+        title: {
+          type: "string",
+          required: false,
+          description: "Optional display title.",
+        },
+        body: {
+          type: "text",
+          required: true,
+          description: "Main note content.",
+        },
+        status: {
+          type: "enum",
+          required: true,
+          enumValues: ["draft", "active", "archived"],
+        },
+        created_at: {
+          type: "datetime",
+          required: true,
+          generated: true,
+        },
+        updated_at: {
+          type: "datetime",
+          required: true,
+          generated: true,
+        },
+      },
+      constraints: ["primary key: id"],
+      indexes: ["owner_id", "status"],
+    },
+  },
+  datasetViews: {
+    compact: {
+      fields: ["id", "title", "status"],
+    },
+    full: {
+      fields: ["id", "title", "status", "body", "created_at", "updated_at"],
+    },
+  },
+  gaps: [],
+} as const satisfies SparcSchemaContract;
 ```

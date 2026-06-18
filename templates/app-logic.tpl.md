@@ -3,8 +3,8 @@
 name: app-logic.tpl.md
 type: template
 for: LOGIC.md
-updated: 2026-06-17 03:55:16 UTC+00:00
-version: 1.1
+updated: 2026-06-17 23:51:46 UTC+00:00
+version: 1.2
 
 ## USE
 
@@ -58,6 +58,15 @@ If a behavior is unclear, list it in `GAPS` instead of inventing it.
 
 If a platform rule overrides app behavior, reference
 `<docs-root>/PLATFORM-LOGIC.md`.
+
+When behavior creates or changes entities, fields, relations, dataset views, or
+cross-application references, update or verify the app's
+`<docs-root>/<app-name-en>/schema/SCHEMA.ts` in the same project-truth update
+cycle.
+
+When behavior introduces or changes app structure, modules, integrations,
+extension points, routes, or contract topology, update or verify the app's
+`<docs-root>/<app-name-en>/map/MAP.md` in the same project-truth update cycle.
 
 ## EXAMPLE
 

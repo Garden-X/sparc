@@ -3,7 +3,7 @@
 name: app-map.tpl.md
 type: template
 for: MAP.md
-updated: 2026-06-17 03:55:16 UTC+00:00
+updated: 2026-06-17 23:39:24 UTC+00:00
 version: 1.1
 
 ## USE
@@ -254,7 +254,7 @@ This section lists relevant project files.
 - `/ai/docs/PLATFORM-LOGIC.md`
 - `/ai/docs/example-app/map/*`
 - `/ai/docs/example-app/logic/LOGIC.md`
-- `/ai/docs/example-app/schema/SCHEMA.md`
+- `/ai/docs/example-app/schema/SCHEMA.ts`
 - `/ai/docs/example-app/changes/LOG.md`
 - `/ai/docs/example-app/changes/daily/*.log.md`
 - `/ai/docs/example-app/design/DESIGN.md`
@@ -266,7 +266,7 @@ This section lists relevant project files.
 - `src/services/` contains integration boundaries and side effects.
 - `src/views/` contains presentation components.
 - `/ai/docs/example-app/map/` contains app structural maps.
-- `/ai/docs/example-app/schema/SCHEMA.md` contains app data-shape truth.
+- `/ai/docs/example-app/schema/SCHEMA.ts` contains app data-shape truth.
 
 ### Excluded From Inventory
 
